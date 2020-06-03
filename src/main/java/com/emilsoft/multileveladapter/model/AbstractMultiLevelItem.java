@@ -12,8 +12,16 @@ public abstract class AbstractMultiLevelItem<R, T> implements MultiLevelItem<R, 
     private int level = 0;
 
     /**
+     * The parent's instance is null so the item will be considered a top level item (1).
+     */
+    public AbstractMultiLevelItem(R id) {
+        this.id = id;
+        this.parent = null;
+    }
+
+    /**
      * The parent's instance just need to have the id, that it will be used in MultiLevelAdapter.
-     * Otherwise, if the parent's instance is null, the item will be considered a top level item (0).
+     * Otherwise, if the parent's instance is null, the item will be considered a top level item (1).
      */
     public AbstractMultiLevelItem(R id, T parent) {
         this.id = id;

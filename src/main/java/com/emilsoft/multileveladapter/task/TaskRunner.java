@@ -6,25 +6,19 @@ import android.util.Log;
 
 import com.emilsoft.multileveladapter.callable.AdapterCallable;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 public class TaskRunner {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final Executor executor = Executors.newCachedThreadPool();
 
-    public <T> void executeAsync(AdapterCallable<T> callable) {
-        executor.execute(new RunnableTask<>(handler, callable));
+    public <T> void execute(AdapterCallable<T> callable) {
+        handler.post(new RunnableTask<T>(callable));
     }
 
     public static class RunnableTask<T> implements Runnable {
 
-        private final Handler handler;
         private final AdapterCallable<T> callable;
 
-        public RunnableTask(Handler handler, AdapterCallable<T> callable) {
-            this.handler = handler;
+        public RunnableTask(AdapterCallable<T> callable) {
             this.callable = callable;
         }
 
@@ -32,12 +26,7 @@ public class TaskRunner {
         public void run() {
             try {
                 final T result = callable.call();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callable.onComplete(result);
-                    }
-                });
+                callable.onComplete(result);
             } catch (Exception e) {
                 Log.e("MultiLevelAdapter", "Exception in MultiLevelAdapter's add item task", e);
             }

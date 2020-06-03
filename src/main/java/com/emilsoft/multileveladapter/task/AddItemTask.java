@@ -1,5 +1,7 @@
 package com.emilsoft.multileveladapter.task;
 
+import android.util.Log;
+
 import com.emilsoft.multileveladapter.callable.AdapterCallable;
 import com.emilsoft.multileveladapter.model.MultiLevelItem;
 
@@ -29,23 +31,22 @@ public class AddItemTask<R, T extends MultiLevelItem<R, T>> implements AdapterCa
         int itemIndex = items.indexOf(item);
         int index = items.indexOf(parent);
         if(itemIndex != -1) {
-            //The comment is visible and items contains item
+            //The item is visible and items contains item
             update(items, item, itemIndex);
+            // if index != -1 the item is child of another item
+            // otherwise it's a top-item
             if(index != -1) {
                 T parentInstance = items.get(index);
                 item.setParent(parentInstance);
-                return item;
-            } else {
-                //it's a top-comment
-                return item;
             }
         } else {
-            //This is a new fresh comment or a collapsed comment
+            //This is a new fresh item or a collapsed item
             if(index != -1) {
                 T parentInstance = items.get(index);
                 item.setParent(parentInstance);
+                // if the parent is collapsed, then this item is collapsed but the parent is not
+                // otherwise also this item is not collapsed and it's child of another item
                 if(parentInstance.isCollapsed()) {
-                    // the comment is collapsed but the parent is not
                     if (!parentInstance.hasChildren()) {
                         parentInstance.setChildren(new ArrayList<>());
                     }
@@ -58,9 +59,6 @@ public class AddItemTask<R, T extends MultiLevelItem<R, T>> implements AdapterCa
                         parentInstance.getChildren().add(item);
                     }
                     return null;
-                } else {
-                    // the comment is not collapsed and it's child of another comment
-                    return item;
                 }
             } else {
                 int parentIndex = -1;
@@ -74,6 +72,8 @@ public class AddItemTask<R, T extends MultiLevelItem<R, T>> implements AdapterCa
                         visibleCommentIndex++;
                     }
                 }
+                // if parent is found, then the item is collapsed
+                // otherwise it's a fresh new top item (doesn't have a parent and is not contained in items)
                 if(parentFound) {
                     T visibleComment = items.get(visibleCommentIndex - 1);
                     T parentInstance = visibleComment.getChildren().get(parentIndex);
@@ -101,14 +101,17 @@ public class AddItemTask<R, T extends MultiLevelItem<R, T>> implements AdapterCa
                         item.setLevel(parentInstance.getLevel() + 1);
                         visibleComment.getChildren().add(parentIndex + 1, item);
                     }
-                    //the comment is collapsed and so not visible
+                    //the item is collapsed and so not visible
                     return null;
-                } else {
-                    // it's a fresh new top comment (doesn't have a parent and is not contained in items)
-                    return item;
                 }
             }
         }
+        if(item.getParent() != null) {
+            item.setLevel(item.getParent().getLevel() + 1);
+        } else {
+            item.setLevel(1);
+        }
+        return item;
     }
 
     private static <R, T extends MultiLevelItem<R, T>> void update(List<T> items, T item, int index) {
@@ -117,7 +120,6 @@ public class AddItemTask<R, T extends MultiLevelItem<R, T>> implements AdapterCa
         item.setIsCollapsed(oldItem.isCollapsed());
         item.setChildren(oldItem.getChildren());
     }
-
 
     public interface ItemProcessedListener<T> {
 

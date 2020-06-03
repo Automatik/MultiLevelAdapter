@@ -1,5 +1,7 @@
 package com.emilsoft.multileveladapter.adapter;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,12 +18,14 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
         VH extends MultiLevelViewHolder<R, T>>
         extends RecyclerView.Adapter<VH> {
 
-    private List<T> items;
+    protected List<T> items;
+    private TaskRunner runner;
 
     public MultiLevelAdapter(List<T> recyclerViewItems) {
         if(recyclerViewItems == null)
             recyclerViewItems = new ArrayList<>();
         this.items = recyclerViewItems;
+        this.runner = new TaskRunner();
     }
 
     @Override
@@ -83,16 +87,26 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
         }
     };
 
-    public final void addItem(T item) {
-        TaskRunner runner = new TaskRunner();
-        AddItemTask<R, T> task = new AddItemTask<>(items, item,
-                new AddItemTask.ItemProcessedListener<T>() {
+    public void addItem(T item) {
+        addItem(item, false);
+    }
+
+    public void addItem(T item, boolean delayed) {
+        AddItemTask<R, T> task = new AddItemTask<>(items, item, new AddItemTask.ItemProcessedListener<T>() {
             @Override
             public void onItemProcessed(T multiLevelItem) {
-                addCommentToList(multiLevelItem);
+                addItemToList(multiLevelItem);
             }
         });
-        runner.executeAsync(task);
+        if(delayed) {
+            runner.execute(task);
+        } else {
+            try {
+                task.onComplete(task.call());
+            } catch (Exception e) {
+                Log.e("MultiLevelAdapter", "Exception in addItem", e);
+            }
+        }
     }
 
     public void clear() {
@@ -101,31 +115,20 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
         notifyItemRangeRemoved(0, size);
     }
 
-    private void addCommentToList(T item) {
+    private void addItemToList(T item) {
         if(item == null) return;
         int pos = items.size();
         int index;
         T parent = item.getParent();
-        if(parent != null) {
-            item.setLevel(parent.getLevel() + 1);
+        if(parent != null)
             index = items.indexOf(parent);
-        } else {
-            //it's a top level comment
-            item.setLevel(1);
+        else
             index = pos;
-        }
         int indexToInsert = index + 1;
         if(!items.contains(item)) {
             append(items, item, indexToInsert);
             notifyItemInserted(indexToInsert);
         }
-    }
-
-    private static <R, T extends MultiLevelItem<R, T>> void update(List<T> items, T item, int index) {
-        T oldItem = items.get(index);
-        item.setLevel(oldItem.getLevel());
-        item.setIsCollapsed(oldItem.isCollapsed());
-        item.setChildren(oldItem.getChildren());
     }
 
     private static <R, T extends MultiLevelItem<R, T>> void append(List<T> items, T item, int index) {
