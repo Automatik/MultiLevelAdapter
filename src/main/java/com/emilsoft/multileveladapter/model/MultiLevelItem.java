@@ -17,20 +17,39 @@ public interface MultiLevelItem<R, T> {
 
     R getId();
 
+    /**
+     * Set the item as collapsed, meaning it is visible but its children aren't, or as expanded,
+     * meaning both the item and its children are visible.
+     */
     void setIsCollapsed(boolean isCollapsed);
 
     boolean isCollapsed();
 
+    /**
+     * Set the item's depth inside the list. Level = 0 means that it's not been set. Level = 1 means
+     * that the item is a top-item, it doesn't have parent but only children. From level = 2 the
+     * item has always a parent and could have children.
+     */
     void setLevel(int level);
 
     int getLevel();
 
+    /**
+     * Set the item's parent. If the item has level = 1, the parent is null.
+     */
     void setParent(T parent);
 
     T getParent();
 
+    /**
+     * If the item's children list is not null, then the item has children.
+     */
     boolean hasChildren();
 
+    /**
+     * When an item is collapsed, its children are stored in this item
+     * @param children
+     */
     void setChildren(List<T> children);
 
     List<T> getChildren();
