@@ -88,16 +88,16 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
     };
 
     /**
-     * Add immediately the item to the adapter. If the item is already in the adapter, by comparing
-     * its id, it will be updated. If the item is child of a collapsed parent item, it will
-     * automatically be added to the parent's children
+     * Add immediately the item to the list and to the adapter. If the item is already in the
+     * list, by comparing its id, it will be updated. If the item is child of a collapsed parent
+     * item, it will automatically be added to the parent's children
      */
     public void addItem(T item) {
         addItem(item, false);
     }
 
     /**
-     * Add item to the adapter. If the item is already in the adapter, by comparing
+     * Add item to the list and to the adapter. If the item is already in the list, by comparing
      * its id, it will be updated. If the item is child of a collapsed parent item, it will
      * automatically be added to the parent's children
      * @param delayed if delayed is true the add task is still executed on main thread but will wait
