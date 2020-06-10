@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
-        VH extends MultiLevelViewHolder<R, T>>
+        VH extends MultiLevelViewHolder<T>>
         extends RecyclerView.Adapter<VH> {
 
     protected List<T> items;
@@ -26,6 +26,13 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
             recyclerViewItems = new ArrayList<>();
         this.items = recyclerViewItems;
         this.runner = new TaskRunner();
+    }
+
+    public MultiLevelAdapter(List<T> recyclerViewItems, TaskRunner runner) {
+        if(recyclerViewItems == null)
+            recyclerViewItems = new ArrayList<>();
+        this.items = recyclerViewItems;
+        this.runner = runner;
     }
 
     @Override
@@ -43,10 +50,11 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
         return items.size();
     }
 
-    protected final CollapseItemListener<R, T> collapseItemListener = new CollapseItemListener<R, T>() {
+    protected final CollapseItemListener<T> collapseItemListener = new CollapseItemListener<T>() {
 
         @Override
         public void onCollapse(T item) {
+            item.setIsCollapsed(!item.isCollapsed());
             final int index = items.indexOf(item);
             final int level = item.getLevel();
             if(index == -1) return;
@@ -67,6 +75,7 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
 
         @Override
         public void onExpand(T item) {
+            item.setIsCollapsed(!item.isCollapsed());
             int index = items.indexOf(item);
             if(index == -1) return;
             if(item.hasChildren()) {

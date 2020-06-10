@@ -86,7 +86,7 @@ public class MyAdapter extends MultiLevelAdapter<Long, MyItem, MyAdapter.ViewHol
         return (colors != null) ? colors[level % colors.length] : 0;
     }
 
-    public static class ViewHolder extends MultiLevelViewHolder<Long, MyItem> {
+    public static class ViewHolder extends MultiLevelViewHolder<MyItem> {
 
         final ConstraintLayout mCollapseLayout;
         final TextView mText;
@@ -96,7 +96,7 @@ public class MyAdapter extends MultiLevelAdapter<Long, MyItem, MyAdapter.ViewHol
         MyItem mItem;
 
 
-        public ViewHolder(@NonNull View view, final CollapseItemListener<Long, MyItem> listener) {
+        public ViewHolder(@NonNull View view, final CollapseItemListener<MyItem> listener) {
             super(view, listener);
             mText = view.findViewById(R.id.item_text);
             mCollapseText = view.findViewById(R.id.item_expand_text);
@@ -118,7 +118,6 @@ public class MyAdapter extends MultiLevelAdapter<Long, MyItem, MyAdapter.ViewHol
                                 mCollapseIcon.setImageDrawable(v.getResources().getDrawable(R.drawable.ic_expand_more_24dp));
                             }
                         }
-                        mItem.setIsCollapsed(!mItem.isCollapsed());
                     }
                 }
             });
