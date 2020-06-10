@@ -1,0 +1,3 @@
+include ':multileveladapter'
+include ':app'
+rootProject.name = "MultiLevelAdapter"

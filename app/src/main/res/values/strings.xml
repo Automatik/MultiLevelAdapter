@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MultiLevelAdapter</string>
+    <string name="item_collapse_text">Collapse</string>
+    <string name="item_expand_text">Expand</string>
+    <string name="item_expand_icon_content_description">Item expand icon</string>
+</resources>

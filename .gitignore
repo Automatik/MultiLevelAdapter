@@ -1,2 +1,10 @@
-# generated files
-build/
+*.iml
+.gradle
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+/gradle_scripts
+/.idea/
