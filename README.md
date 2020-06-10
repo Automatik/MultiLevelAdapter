@@ -26,6 +26,7 @@ dependencies {
 
 ## Basic Usage
 Your item's class needs to have an `id` to uniquely identify the item in the list and to pass the parent's instance in the constructor. If the parent is null the item is considered as a top-level item (level = 1). The parent doesn't need to have all the fields complete but only the id field. The id field is used when adding the item to the list.
+You don't need to manually edit or set the fields `children`, `isCollapsed` and `level`. They are used internally in the `addItemTask`.
 
 The most straightforward way to use this library is by first extending your item's class (used in your list) with `AbstractMultiLevelItem`. The `MyItem` class has the id's type as `long`.
 ```java
