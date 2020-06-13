@@ -10,7 +10,7 @@ This library lets you collapse and expand items in your `RecyclerView` by only:
 ## Dependency
 ```gradle
 dependencies {
-    implementation 'io.github.automatik:multileveladapter:1.0'
+    implementation 'io.github.automatik:multileveladapter:1.0.0'
 }
 ```
 
