@@ -33,7 +33,7 @@ public class MyAdapter extends MultiLevelAdapter<Long, MyItem, MyAdapter.ViewHol
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_item, parent, false);
-        return new ViewHolder(view, collapseItemListener);
+        return new ViewHolder(view, getCollapseItemListener());
     }
 
     @Override

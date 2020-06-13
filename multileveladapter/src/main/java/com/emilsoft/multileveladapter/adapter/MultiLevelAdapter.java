@@ -50,7 +50,7 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
         return items.size();
     }
 
-    protected final CollapseItemListener<T> collapseItemListener = new CollapseItemListener<T>() {
+    private final CollapseItemListener<T> collapseItemListener = new CollapseItemListener<T>() {
 
         @Override
         public void onCollapse(T item) {
@@ -97,6 +97,14 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
     };
 
     /**
+     * Get the default collapse item listener that manages the collapse and expand actions
+     * @return collapse item listener
+     */
+    public CollapseItemListener<T> getCollapseItemListener() {
+        return collapseItemListener;
+    }
+
+    /**
      * Add immediately the item to the list and to the adapter. If the item is already in the
      * list, by comparing its id, it will be updated. If the item is child of a collapsed parent
      * item, it will automatically be added to the parent's children
@@ -131,6 +139,9 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
         }
     }
 
+    /**
+     * Remove all the items from the list.
+     */
     public void clear() {
         int size = items.size();
         items.clear();
