@@ -66,7 +66,7 @@ public class Adapter extends MultiLevelAdapter<Long, MyItem, Adapter.ViewHolder>
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_item, parent, false);
         //collapseItemListener is defined in MultiLevelAdapter class
-        return new Adapter.ViewHolder(view, collapseItemListener);
+        return new Adapter.ViewHolder(view, getCollapseItemListener());
     }
 
     @Override
