@@ -1,4 +1,7 @@
 # MultiLevelAdapter
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.automatik/multileveladapter?label=Download&logo=android)](https://repo.maven.apache.org/maven2/io/github/automatik/multileveladapter/1.0.0/multileveladapter-1.0.0.aar)
+
 MultiLevelAdapter is an Android library to allow collapsing and expanding items in RecyclerView's Adapter on multiple levels (no limits).
 
 ![Demo Gif](MultiLevelAdapter.gif)
