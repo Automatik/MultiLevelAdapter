@@ -1,6 +1,6 @@
 # MultiLevelAdapter
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.automatik/multileveladapter?label=Download&logo=android)](https://repo.maven.apache.org/maven2/io/github/automatik/multileveladapter/1.0.0/multileveladapter-1.0.0.aar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.automatik/multileveladapter?label=Download&logo=android)](https://repo.maven.apache.org/maven2/io/github/automatik/multileveladapter/1.0.1/multileveladapter-1.0.1.aar)
 
 MultiLevelAdapter is an Android library to allow collapsing and expanding items in RecyclerView's Adapter on multiple levels (no limits).
 
@@ -13,7 +13,7 @@ This library lets you collapse and expand items in your `RecyclerView` by only:
 ## Dependency
 ```gradle
 dependencies {
-    implementation 'io.github.automatik:multileveladapter:1.0.0'
+    implementation 'io.github.automatik:multileveladapter:1.0.1'
 }
 ```
 
@@ -22,7 +22,7 @@ dependencies {
 * The abstract class `AbstractMultiLevelItem<R, T>` lets you define both the type of the item's id and the item itself, but you don't need to implement all the interface's methods.
 * The interface `MultiLevelLongItem<T>` is a shortcut and defines the id's type as `long` and lets you define the item's class.
 * The abstract class `AbstractMultiLevelLongItem<T>` is a shortcut and defines the id's type as `long` and implements all the interface's methods, but lets you define the item's class.
-* The abstract class `MultiLevelAdapter<R, T, VH>` already implements the logic behing collapsing and expanding items. You need only to call its listener when clicking collapse/expand.
+* The abstract class `MultiLevelAdapter<T, VH>` already implements the logic behind collapsing and expanding items. You need only to call its listener when clicking collapse/expand.
 * The adapter's method `addItem` adds an item to the adapter's list. If the item's parent is collapsed, the item will be added to its parent's children and will not be showed in the `RecyclerView`.
 * The adapter's method `addItem` lets you add new items immediately, running on main UI thread, or delayed by using a Handler attached to main UI thread and adding the `addItemTask` to the message queue. This is to avoid possible heavy-blocking execution. In case `delayed` is `true` obviously the new item won't be immediately indexable in the list.
 * The adapter's method `addItem` lets you avoid to add redundant items by checking the item's id.
@@ -56,7 +56,7 @@ public class MyItem extends AbstractMultiLevelItem<Long, MyItem> {
 
 And then extending your adapter's class with `MultiLevelAdapter`
 ```java
-public class Adapter extends MultiLevelAdapter<Long, MyItem, Adapter.ViewHolder> {
+public class Adapter extends MultiLevelAdapter<MyItem, Adapter.ViewHolder> {
 
 
     public Adapter(List<MyItem> recyclerViewItems) {
