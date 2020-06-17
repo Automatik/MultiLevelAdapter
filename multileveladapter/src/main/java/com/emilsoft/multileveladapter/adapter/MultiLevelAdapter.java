@@ -14,7 +14,7 @@ import com.emilsoft.multileveladapter.task.TaskRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
+public abstract class MultiLevelAdapter<T extends MultiLevelItem<?, T>,
         VH extends MultiLevelViewHolder<T>>
         extends RecyclerView.Adapter<VH> {
 
@@ -122,7 +122,7 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
      *                add task will be executed immediately
      */
     public void addItem(T item, boolean delayed) {
-        AddItemTask<R, T> task = new AddItemTask<>(items, item, new AddItemTask.ItemProcessedListener<T>() {
+        AddItemTask<T> task = new AddItemTask<>(items, item, new AddItemTask.ItemProcessedListener<T>() {
             @Override
             public void onItemProcessed(T multiLevelItem) {
                 addItemToList(multiLevelItem);
@@ -164,7 +164,7 @@ public abstract class MultiLevelAdapter<R, T extends MultiLevelItem<R, T>,
         }
     }
 
-    private static <R, T extends MultiLevelItem<R, T>> void append(List<T> items, T item, int index) {
+    private static <T extends MultiLevelItem<?, T>> void append(List<T> items, T item, int index) {
         int size = items.size();
         int i = (index < 0 || index > size) ? size : index;
         items.add(i, item);

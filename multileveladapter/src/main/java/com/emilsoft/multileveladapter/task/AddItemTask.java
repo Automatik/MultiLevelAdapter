@@ -6,7 +6,7 @@ import com.emilsoft.multileveladapter.model.MultiLevelItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddItemTask<R, T extends MultiLevelItem<R, T>> implements AdapterCallable<T> {
+public class AddItemTask<T extends MultiLevelItem<?, T>> implements AdapterCallable<T> {
 
     private final ItemProcessedListener<T> listener;
     private final List<T> items;
@@ -112,7 +112,7 @@ public class AddItemTask<R, T extends MultiLevelItem<R, T>> implements AdapterCa
         return item;
     }
 
-    private static <R, T extends MultiLevelItem<R, T>> void update(List<T> items, T item, int index) {
+    private static <T extends MultiLevelItem<?, T>> void update(List<T> items, T item, int index) {
         T oldItem = items.get(index);
         item.setLevel(oldItem.getLevel());
         item.setIsCollapsed(oldItem.isCollapsed());

@@ -18,7 +18,7 @@ import com.emilsoft.multileveladapter.holder.MultiLevelViewHolder;
 
 import java.util.List;
 
-public class MyAdapter extends MultiLevelAdapter<Long, MyItem, MyAdapter.ViewHolder> {
+public class MyAdapter extends MultiLevelAdapter<MyItem, MyAdapter.ViewHolder> {
 
     private Context context;
     private int[] colors;
