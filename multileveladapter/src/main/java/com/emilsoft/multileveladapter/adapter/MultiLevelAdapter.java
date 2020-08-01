@@ -96,6 +96,13 @@ public abstract class MultiLevelAdapter<T extends MultiLevelItem<?, T>,
         }
     };
 
+    private AddItemTask.ItemProcessedListener<T> itemProcessedListener = new AddItemTask.ItemProcessedListener<T>() {
+        @Override
+        public void onItemProcessed(T multiLevelItem) {
+            addItemToList(multiLevelItem);
+        }
+    };
+
     /**
      * Get the default collapse item listener that manages the collapse and expand actions
      * @return collapse item listener
@@ -122,12 +129,7 @@ public abstract class MultiLevelAdapter<T extends MultiLevelItem<?, T>,
      *                add task will be executed immediately
      */
     public void addItem(T item, boolean delayed) {
-        AddItemTask<T> task = new AddItemTask<>(items, item, new AddItemTask.ItemProcessedListener<T>() {
-            @Override
-            public void onItemProcessed(T multiLevelItem) {
-                addItemToList(multiLevelItem);
-            }
-        });
+        AddItemTask<T> task = new AddItemTask<>(items, item, itemProcessedListener);
         if(delayed) {
             runner.execute(task);
         } else {
@@ -168,6 +170,18 @@ public abstract class MultiLevelAdapter<T extends MultiLevelItem<?, T>,
         int size = items.size();
         int i = (index < 0 || index > size) ? size : index;
         items.add(i, item);
+    }
+
+    public TaskRunner getTaskRunner() {
+        return runner;
+    }
+
+    public void setTaskRunner(TaskRunner runner) {
+        this.runner = runner;
+    }
+
+    public void setItemProcessedListener(AddItemTask.ItemProcessedListener<T> itemProcessedListener) {
+        this.itemProcessedListener = itemProcessedListener;
     }
 
 }

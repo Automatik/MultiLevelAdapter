@@ -1,6 +1,6 @@
 # MultiLevelAdapter
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.automatik/multileveladapter?label=Download&logo=android)](https://repo.maven.apache.org/maven2/io/github/automatik/multileveladapter/1.0.1/multileveladapter-1.0.1.aar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.automatik/multileveladapter?label=Download&logo=android)](https://repo.maven.apache.org/maven2/io/github/automatik/multileveladapter/1.0.2/multileveladapter-1.0.2.aar)
 
 MultiLevelAdapter is an Android library to allow collapsing and expanding items in RecyclerView's Adapter on multiple levels (no limits).
 
@@ -208,6 +208,7 @@ public class MyItem implements MultiLevelItem<Long, MyItem> {
 
 * You can also define more hierarchies by implementing or extending the library's classes and interfaces and defining only one type.
 * You can implement your own `TaskRunner` if you want to execute the `addItemTask` on another thread and pass it in the adapter's constructor.
+* Yoi can implement your own `AddItemTask` and override the `addItem` method to define how you want to add your items to the adapter.
 
 ## License
 

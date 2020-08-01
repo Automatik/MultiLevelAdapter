@@ -20,7 +20,8 @@ public class AddItemTask<T extends MultiLevelItem<?, T>> implements AdapterCalla
 
     @Override
     public void onComplete(T result) {
-        listener.onItemProcessed(result);
+        if(listener != null)
+            listener.onItemProcessed(result);
     }
 
     @Override
